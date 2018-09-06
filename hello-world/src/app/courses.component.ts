@@ -10,11 +10,22 @@ import { CoursesService } from './courses.service';
         {{course}}
       </li>
     </ul>
-  `
+    <input (keyup.enter)="onKeyUp()" >
+    <div (click)="divClick($event)">
+      <button (click)="onSave($event)">Save</button>
+    </div>
+    <table>
+      <tr>
+        <td [attr.colspan]="colSpan"></td>
+      </tr>
+    </table>  `
 })
 export class CoursesComponent {
 
-    private m_title = "List of Courses";
+    private m_title = 'List of Courses';
+    private m_image = 'http://lorempixel.com/400/200';
+    private m_colspan = 2;
+    private m_active = false;
 
     /**
      * Constructor
@@ -22,10 +33,32 @@ export class CoursesComponent {
      * @param m_courses
      */
     constructor(private m_service: CoursesService ) {
-      //this.m_courses = m_service.getCourses();
+      // this.m_courses = m_service.getCourses();
     }
 
+    onKeyUp() {
+      console.log('Enter Pressed ');
+    }
 
+    divClick($event) {
+      console.log('Div Button pressed ', $event);
+
+    }
+
+    onSave($event) {
+      $event.stopPropagation();
+      console.log('Button pressed ', $event);
+    }
+
+    get active() { return this.m_active; }
+
+    get colSpan() {
+      return this.m_colspan;
+    }
+
+    get url() {
+      return this.m_image;
+    }
 
     get title() {
       return this.m_title;
