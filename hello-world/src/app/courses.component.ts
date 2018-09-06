@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CoursesService } from './courses.service';
 
 @Component({
-  selector: 'courses',
+  selector: 'app-courses',
   template: `
     <h2>{{title}}</h2>
     <ul>
@@ -26,6 +26,15 @@ export class CoursesComponent {
     private m_image = 'http://lorempixel.com/400/200';
     private m_colspan = 2;
     private m_active = false;
+    private m_email = 'QWERTY';
+    private m_course = {
+      title: 'The course Title',
+      rating: 4.9745,
+      students: 30123,
+      price: 190.95,
+      releaseDate: new Date(2016, 3, 1)
+    };
+    private m_text = 'A long valueA long valueA long valueA long valueA long valueA long valueA long value';
 
     /**
      * Constructor
@@ -58,6 +67,17 @@ export class CoursesComponent {
 
     get url() {
       return this.m_image;
+    }
+
+    get text() { return this.m_text; }
+
+    get course() { return this.m_course; }
+
+    get email() { return this.m_email; }
+    set email(value) { this.m_email = value; }
+
+    keyUp() {
+      console.log('Key Up: got ' + this.email);
     }
 
     get title() {
