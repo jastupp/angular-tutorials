@@ -42,13 +42,24 @@
 
   <div class="form-group">
     <label for="contactMethod">Contact Method</label>
-    <select ngModel name="contactMethod" id="contactMethod"   class="form-control">
-      <option *ngFor="">
-      <option value="Option 1"></option>
-      <option value="Option 2"></option>
-      <option value="Option 3"></option>
+    <select multiple ngModel name="contactMethod" id="contactMethod"   class="form-control">
+      <option></option>
+      <option *ngFor="let next of contactMethods" [value]="next.id">
+        {{next.name}}
+      </option>
     </select>
   </div>
+
+  <div *ngFor="let method of contactMethods" class="radio">
+    <label>
+      <input ngModel type="radio" name="contactMethod" [value]="method.id">
+      {{method.name}}
+    </label>
+  </div>
+
+
+
+
 
   <p>{{ f.value | json }}</p>
 
