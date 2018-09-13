@@ -18,32 +18,35 @@ export class PostsComponent implements OnInit {
     //**************
     constructor(private m_service: PostService) {}
 
-    //********************
-    // Getters / Setters *
-    //********************
+    //**********
+    // Getters *
+    //**********
     get service() { return this.m_service; }
     get posts() { return this.m_posts; }
+
+    //**********
+    // Setters *
+    //**********
     set posts(value) { this.m_posts = value; }
 
 
     // Called on component init
     ngOnInit() {
-        this.service.getPosts().subscribe(
-            response => {
-                this.posts = response;
-            }
-        );
+        this.service.getAll().subscribe(posts => this.posts = posts );
     }
 
     // create the post
     createPost(input: HTMLInputElement) {
         let post = { title: input.value };
+        this.posts.splice(0, 0, post);
         input.value = '';
-        this.service.post(post).subscribe(
-            response => {
-                post['id'] = response['id'];
-                this.posts.splice(0, 0, post);
-                console.log(response);
+        this.service.create(post).subscribe(
+            data => {
+                post['id'] = data['id'];
+                console.log(data);
+            },
+            error => {
+                this.posts.splice(0, 1);
             }
         );
     }
@@ -58,9 +61,9 @@ export class PostsComponent implements OnInit {
 
     // delete the post
     deletePost(post) {
-        //this.service.delete(post.id).subscribe(
-        this.service.delete(1234).subscribe(
-            response => {
+        this.service.delete(post.id)
+        .subscribe(
+            () => {
                 let index = this.posts.indexOf(post);
                 this.posts.splice(index, 1);
             }
