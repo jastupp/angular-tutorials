@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from './store';
+import { Actions } from './actions';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
     //****************
     // Class Members *
@@ -27,9 +28,14 @@ export class AppComponent {
     get title() { return this.m_title; }
     get redux() { return this.m_redux; }
 
+    ngOnInit() {
+        this.redux.subscribe(() => {
+            console.log(this.redux.getState());
+        });
+    }
 
     increment() {
-        this.redux.dispatch({type: 'INCREMENT'});
+        this.redux.dispatch({ type: Actions.INCREMENT });
     }
 
 }

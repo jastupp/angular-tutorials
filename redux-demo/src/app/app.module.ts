@@ -3,8 +3,8 @@ import { NgModule, OnInit } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NgRedux, NgReduxModule } from '@angular-redux/store';
-import { IAppState, rootReducer } from './store';
-
+import {IAppState, INITIAL_STATE, rootReducer} from './store';
+import { createStore } from 'redux';
 
 @NgModule({
     declarations: [
@@ -17,21 +17,19 @@ import { IAppState, rootReducer } from './store';
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule implements OnInit {
+export class AppModule {
 
     //**************
     // Constructor *
     //**************
-    constructor(private m_redux: NgRedux<IAppState>) {}
+    constructor(private m_redux: NgRedux<IAppState>) {
 
-
-    ngOnInit() {
-        this.ngRedux.configureStore(rootReducer, {});
+        this.m_redux.configureStore(rootReducer, INITIAL_STATE);
     }
 
     //**********
     // Getters *
     //**********
-    get ngRedux() { return this.m_redux; }
+    get redux() { return this.m_redux; }
 
 }
