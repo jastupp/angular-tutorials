@@ -1,22 +1,35 @@
-import {Actions} from './actions';
+import { Actions } from './actions';
+import { tassign } from 'tassign';
+import { Map } from 'immutable';
 
 export interface IAppState {
     counter: number;
+    messaging?: {
+        newMessages: number;
+    };
 }
 
 export const INITIAL_STATE: IAppState = {
-    counter: 0
+    counter: 0,
+    messaging: {
+        newMessages: 5
+    }
 };
 
 
 export function rootReducer(state: IAppState, action): IAppState {
 
-    let result: IAppState = { counter: state.counter };
+    let result: IAppState;
 
-    if (action.type === Actions.INCREMENT) {
-        result = { counter: state.counter + 1 };
+
+    if (Actions[action.type]) {
+        result = tassign(state);
     }
 
-    return result;
+    if (action.type === Actions.INCREMENT) {
+        result.counter = result.counter + 1;
+    }
+
+    return result || state;
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgRedux } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from './store';
 import { Actions } from './actions';
 
@@ -14,7 +14,8 @@ export class AppComponent implements OnInit {
     // Class Members *
     //****************
     private m_title = 'redux-demo';
-    private m_counter = 0;
+    private m_counter;
+    private m_new_messages;
 
     //**************
     // Constructor *
@@ -24,14 +25,22 @@ export class AppComponent implements OnInit {
     //**********
     // Getters *
     //**********
-    get counter() { return this.m_counter; }
+    //get counter() { return this.m_counter; }
     get title() { return this.m_title; }
     get redux() { return this.m_redux; }
+    get counter() { return this.m_counter; }
+    get newMessages() { return this.m_new_messages; }
+
+    //**********
+    // Setters *
+    //**********
+    set counter(value) { this.m_counter = value; }
+    set newMessages(value) { this.m_new_messages = value; }
+
 
     ngOnInit() {
-        this.redux.subscribe(() => {
-            console.log(this.redux.getState());
-        });
+        this.counter = this.redux.select('counter');
+        this.newMessages = this.redux.select(['messaging', 'newMessages']);
     }
 
     increment() {
